@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="avatar-theme">
+    <div class="ocean-bg"></div>
+    <div class="bioluminescent-particles"></div>
+    
+    <div class="container">
+        <header>
+            <h1>📚 Student Information Management System</h1>
+            <p>Manage student records efficiently</p>
+        </header>
+
+        <nav class="menu">
+            <button class="menu-btn active" onclick="showSection(event, 'home')">Home</button>
+            <button class="menu-btn" onclick="showSection(event, 'add')">Add Student</button>
+            <button class="menu-btn" onclick="showSection(event, 'view')">View All</button>
+            <button class="menu-btn" onclick="showSection(event, 'search')">Search</button>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <h2>Welcome</h2>
+            <div class="stats">
+                <div class="stat-box">
+                    <h3 id="totalCount">0</h3>
+                    <p>Total Students</p>
+                </div>
+            </div>
+            <p class="intro-text">Use the menu above to manage student records.</p>
+        </section>
+
+        <!-- Add Student Section -->
+        <section id="add" class="section">
+            <h2>Add New Student</h2>
+            <form id="addForm" class="form">
+                <div class="form-group">
+                    <label for="studentId">Student ID:</label>
+                    <input type="text" id="studentId" required placeholder="e.g., STU001">
+                </div>
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" required placeholder="Enter full name">
+                </div>
+                <div class="form-group">
+                    <label for="course">Course:</label>
+                    <input type="text" id="course" required placeholder="e.g., Computer Science">
+                </div>
+                <div class="form-group">
+                    <label for="yearLevel">Year Level:</label>
+                    <select id="yearLevel" required>
+                        <option value="">Select Year</option>
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" required min="15" max="50" placeholder="Enter age">
+                </div>
+                <button type="submit" class="btn-submit">Add Student</button>
+            </form>
+            <div id="addMessage" class="message"></div>
+        </section>
+
+        <!-- View All Students Section -->
+        <section id="view" class="section">
+            <h2>All Students
+                <button onclick="refreshDisplay()" style="float: right; padding: 5px 10px; font-size: 0.8em; cursor: pointer; background: rgba(0,212,255,0.3); border: 1px solid rgba(0,212,255,0.5); color: #00ffd0; border-radius: 4px;">🔄 Refresh</button>
+            </h2>
+            <div id="studentsContainer" class="students-container"></div>
+        </section>
+
+        <!-- Search Section -->
+        <section id="search" class="section">
+            <h2>Search Student</h2>
+            <div class="search-form">
+                <input type="text" id="searchInput" placeholder="Enter Student ID or Name...">
+                <button onclick="performSearch()" class="btn-search">Search</button>
+                <button onclick="clearSearch()" class="btn-secondary">Clear</button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </section>
+
+        <!-- Student Details Section -->
+        <section id="details" class="section">
+            <div class="details-back">
+                <button onclick="backToView()" class="btn-secondary">← Back to All Students</button>
+            </div>
+            <div id="studentDetails" class="student-details-container"></div>
+        </section>
+
+        <!-- Edit Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Edit Student</h2>
+                <form id="editForm" class="form">
+                    <div class="form-group">
+                        <label for="editId">Student ID:</label>
+                        <input type="text" id="editId" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="editName">Full Name:</label>
+                        <input type="text" id="editName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourse">Course:</label>
+                        <input type="text" id="editCourse" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editYear">Year Level:</label>
+                        <select id="editYear" required>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAge">Age:</label>
+                        <input type="number" id="editAge" required min="15" max="50">
+                    </div>
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                    <button type="button" onclick="closeModal()" class="btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Fallback display if initialization doesn't work
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                console.log('Fallback check - Students:', students);
+                console.log('View section active:', document.getElementById('view').classList.contains('active'));
+                if (document.getElementById('studentsContainer').innerHTML === '') {
+                    console.log('Container is empty, triggering display...');
+                    displayAllStudents();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
